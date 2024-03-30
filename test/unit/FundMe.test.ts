@@ -1,10 +1,17 @@
 import { loadFixture } from "@nomicfoundation/hardhat-toolbox/network-helpers";
 import { expect } from "chai";
-import { ethers } from "hardhat";
+import { ethers, network } from "hardhat";
 
 describe("fundMe", function () {
   // We define a fixture to reuse the same setup in every test.
   // and reset Hardhat Network to that snapshot in every test.
+
+  this.beforeAll(async function () {
+    if (network.name !== "localhost" && network.name !== "hardhat") {
+      console.log("These tests are meant to be run on localhost or hardhat");
+      this.skip();
+    }
+  });
 
   async function deployFundMe() {
     // Contracts are deployed using the first signer/account by default
@@ -28,6 +35,7 @@ describe("fundMe", function () {
       expect(await fundMe.getOwner()).to.equal(owner.address);
     });
   });
+
   describe("Funding", function () {
     it("Should fund the contract and keep track of the founder", async function () {
       const { fundMe, owner } = await loadFixture(deployFundMe);
