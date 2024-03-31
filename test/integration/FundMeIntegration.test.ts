@@ -1,7 +1,7 @@
 import { ethers, network } from "hardhat";
 import { expect } from "chai";
 import { FundMe } from "../../typechain-types";
-import deployedAddress from "../../ignition/deployments/sepolia-deployment/deployed_addresses.json";
+import deployedAddress from "../../ignition/deployments/chain-11155111/deployed_addresses.json";
 
 describe("Integration test for FundMe contract on Sepolia", function () {
   let fundMeContract: FundMe;

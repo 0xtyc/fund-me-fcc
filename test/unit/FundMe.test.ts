@@ -43,10 +43,10 @@ describe("fundMe", function () {
 
       await fundMe.fund({ value: amountToSend });
 
-      const balance = await fundMe.s_addressToAmountFunded(owner.address);
+      const balance = await fundMe.addressToAmountFunded(owner.address);
       expect(balance).to.equal(amountToSend);
 
-      const funderAddress = await fundMe.s_funders(0);
+      const funderAddress = await fundMe.funders(0);
       expect(funderAddress).to.equal(owner.address);
     });
 
@@ -94,7 +94,7 @@ describe("fundMe", function () {
     const balanceAfter = await ethers.provider.getBalance(owner.address);
 
     expect(balanceAfter).to.be.gt(balanceBefore);
-    expect(await fundMe.s_addressToAmountFunded(owner.address)).to.equal(0);
+    expect(await fundMe.addressToAmountFunded(owner.address)).to.equal(0);
   });
 
   describe("Events", function () {
