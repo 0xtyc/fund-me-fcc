@@ -16,11 +16,13 @@ The FundMe contract allows users to contribute funds and the contract owner to w
 5. Write unit tests in `/test`. If a contract uses an oracle, a mock contract must be deployed for local testing.
    - `npx hardhat test` to run tests
    - `npx hardhat coverage` to check test coverage
-6. Setup a wallet in the testnet, and get some funds from a faucet for deployment. Configure your account **securely** in the `hardhat.config.ts`.
-7. Get an API key from [etherscan](https://etherscan.io/) and add it to the config for contract verification.
-8. Deploy and verify the contract with `ignition` to testnet (sepolia)
+6. Optimize the gas fee if possible. Set `gasReporter` to enabled in the config, the gas report is availble when running the test.
+   - For example: replace `required` with custom errors, use `immutable` or `constant` if possible, and so on.
+7. Setup a wallet in the testnet, and get some funds from a faucet for deployment. Configure your account **securely** in the `hardhat.config.ts`.
+8. Get an API key from [etherscan](https://etherscan.io/) and add it to the config for contract verification.
+9. Deploy and verify the contract with `ignition` to testnet (sepolia)
    - `npx hardhat ignition deploy ignition/modules/FundMe.ts --network sepolia --verify`
-9. Add an integration test on the testnet.
+10. Add an integration test on the testnet.
    - `npx hardhat test --network sepolia`
 
 ## Frontend usage

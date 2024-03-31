@@ -54,9 +54,21 @@ describe("fundMe", function () {
       const { fundMe, owner } = await loadFixture(deployFundMe);
       const amountToSend = ethers.parseEther("0.001"); // Less than the minimum required
 
-      await expect(
+      expect(
         fundMe.connect(owner).fund({ value: amountToSend })
-      ).to.be.revertedWith("You need to fund more than $50");
+      ).to.be.revertedWith("FundMe__InsufficientFunds");
+    });
+
+    it("Should return the correct funder amount", async function () {
+      const { fundMe, otherAccount } = await loadFixture(deployFundMe);
+      const amountSentFirst = ethers.parseEther("1");
+      const amountSentSecond = ethers.parseEther("2");
+
+      await fundMe.connect(otherAccount).fund({ value: amountSentFirst });
+      await fundMe.connect(otherAccount).fund({ value: amountSentSecond });
+
+      const balance = await fundMe.getFunderAmount(otherAccount.address);
+      expect(balance).to.equal(amountSentFirst + amountSentSecond);
     });
   });
 
@@ -65,8 +77,8 @@ describe("fundMe", function () {
       const { fundMe, otherAccount } = await loadFixture(deployFundMe);
 
       // We use fundMe.connect() to send a transaction from another account
-      await expect(fundMe.connect(otherAccount).withdraw()).to.be.revertedWith(
-        "You are not the owner"
+      expect(fundMe.connect(otherAccount).withdraw()).to.be.revertedWith(
+        "FundMe_NotOwner"
       );
     });
   });
@@ -87,7 +99,7 @@ describe("fundMe", function () {
 
   describe("Events", function () {
     it("Should emit an event on withdrawals", async function () {
-      const { fundMe, otherAccount } = await loadFixture(deployFundMe);
+      const { fundMe } = await loadFixture(deployFundMe);
 
       await expect(fundMe.withdraw()).to.emit(fundMe, "Withdrawal").withArgs();
     });

@@ -26,6 +26,9 @@ const config: HardhatUserConfig = {
     maxFeeBumps: 4,
     requiredConfirmations: 5,
   },
+  gasReporter: {
+    enabled: true,
+  },
 };
 
 export default config;
